@@ -14,6 +14,8 @@ def home(request):
 
 # Create your views here.
 def signUp(request):
+    if request.user:
+        return redirect('todos')
     form = UserCreationForm()
     context = {"form": form}
     if request.method == "POST":
@@ -33,6 +35,8 @@ def signUp(request):
     return render(request, 'todo/signup.html', context)
 
 def loginUser(request):
+    if request.user.is_anonymous == False and request.user:
+        return redirect('todos')
     context = {'form': AuthenticationForm()}
     if request.method == 'POST':
         username = request.POST.get('username')
